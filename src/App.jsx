@@ -1,7 +1,8 @@
 
 import './App.css'
-import Producto from './components/Producto'
-import Productos from './components/Productos'
+import Productos from './components/productos/Productos'
+import Header from './components/ui/header';
+import Footer from './components/ui/footer';
 
 function App() {
 
@@ -25,11 +26,13 @@ function App() {
 
   return (
     <>
-      <h2>Let s get started</h2>
+      <Header />
+      <h2>Let's get started</h2>
       <p>It is working</p>
       <Productos productos={productos} />
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
