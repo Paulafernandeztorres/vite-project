@@ -1,22 +1,8 @@
 .header {
-    background-color: #3333336a;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .header nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .header nav ul li {
-    display: inline;
-    margin: 0 10px;
-  }
-  
-  .header nav ul li a {
-    color: white;
-    text-decoration: none;
-  }
-  
+  padding: 0.5rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  background-color: #860000;
+  text-align: center;
+  color: aliceblue;
+}
