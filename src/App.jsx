@@ -14,25 +14,25 @@ function App() {
         id: Math.random().toString(),
         nombre: 'Pantalla táctil',
         precio: 34.7,
-        fecha: new Date()
+        fecha: new Date(2025, 2, 2)
       },
       {
         id: Math.random().toString(),
         nombre: 'Ratón inalámbrico',
         precio: 34.8,
-        fecha: new Date()
+        fecha: new Date(2026, 2, 2)
       },
       {
         id: Math.random().toString(),
         nombre: 'Teclado',
         precio: 22.6,
-        fecha: new Date()
+        fecha: new Date(2027, 2, 2)
       },
       {
         id: Math.random().toString(),
-        nombre: 'Pantalla 2',
+        nombre: 'Auriculares',
         precio: 56.6,
-        fecha: new Date()
+        fecha: new Date(2025, 2, 2)
       },
     ])
 
@@ -44,7 +44,7 @@ function App() {
   }
 
   const borraProducto = (id) => {
-    alert(id)
+    //alert(id)
     // let productosAux = [...productos]
     // productosAux = productosAux.filter((elemento) => {
     //   return elemento.id != id
