@@ -26,7 +26,7 @@ function App() {
         id: Math.random().toString(),
         nombre: 'Teclado',
         precio: 22.6,
-        fecha: new Date(2027, 2, 2)
+        fecha: new Date(2026, 2, 2)
       },
       {
         id: Math.random().toString(),
