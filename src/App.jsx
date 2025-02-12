@@ -5,8 +5,13 @@ import Header from './components/ui/Header'
 import Footer from './components/ui/Footer'
 import NuevoProducto from './components/Productos/NuevoProducto'
 import { useState } from 'react'
+import AutContext from './store/AutContext'
+import ProductosContext from './store/ProductosContext'
 
 function App() {
+
+  const [login, setLogin] = useState(false)
+  const [language, setLanguage] = useState('es-ES')
 
   const [productos, setProductos] = useState(
     [
@@ -59,10 +64,14 @@ function App() {
 
   return (
     <>
-      <Header />
-      <NuevoProducto addProducto={addProducto} />
-      <Productos productos={productos} borraProducto={borraProducto} />
-      <Footer />
+      <AutContext.Provider value={{ login: login, language: language }}>
+        <Header />
+        <NuevoProducto addProducto={addProducto} />
+        <ProductosContext.Provider value={{borrar: borraProducto}}>
+          <Productos productos={productos} borraProducto={borraProducto} />
+        </ProductosContext.Provider>
+        <Footer />
+      </AutContext.Provider>
     </>
   )
 }
