@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import ProductosContext from '../../store/ProductosContext';
+import { Link } from 'react-router';
 
 function Producto(props) {
 
@@ -44,7 +45,7 @@ function Producto(props) {
         <div className='producto'>
             <FechaProducto fecha={fecha} />
             <div className='producto__descripcion'>
-                <h2>Nombre: {nombre}</h2>
+                <h2>Nombre: {nombre}</h2> | <Button variant='outline-warning'><Link to={`/product/${props.producto.id}`}>Detalles</Link></Button>
                 <div className='producto__precio'>{precio}</div>
                 <Button variant="warning" onClick={handleShow}>VER DETALLES</Button>
                 <Button onClick={cambiaNombre}>CAMBIA NOMBRE</Button>
