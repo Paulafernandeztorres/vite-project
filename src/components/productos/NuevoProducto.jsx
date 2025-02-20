@@ -6,16 +6,17 @@ import Col from 'react-bootstrap/Col';
 import ReactDOM from 'react-dom'
 import './NuevoProducto.css'
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 function InfoModal(props) {
 
-    const [open,setOpen] = useState(true)
+    const [open, setOpen] = useState(true)
 
-    const cerrarHandler = ()  => {
+    const cerrarHandler = () => {
         setOpen(false)
     }
 
-    if(open){
+    if (open) {
         return (
             <>
                 <h2>{props.titulo}</h2>
@@ -26,7 +27,7 @@ function InfoModal(props) {
     }
 
     return null
-    
+
 }
 
 function NuevoProducto(props) {
@@ -38,6 +39,7 @@ function NuevoProducto(props) {
     const [nombre, setNombre] = useState('')
     const [precio, setPrecio] = useState('')
     const [fecha, setFecha] = useState('')
+    const [descripcion, setDescripcion] = useState('')
 
     const [nombreValid, setNombreValid] = useState(true)
 
@@ -58,6 +60,10 @@ function NuevoProducto(props) {
         setFecha(event.target.value)
     }
 
+    const descripcionHandler = (event) => {
+        setDescripcion(event.target.value)
+    }
+
     const submitHandler = (event) => {
         event.preventDefault()
         const producto = {
@@ -72,7 +78,20 @@ function NuevoProducto(props) {
         setPrecio('')
         setFecha('')
         nombreRef.current.focus()
-        setTimeout(()=>{navega('/products')}, 500)
+        setTimeout(() => { navega('/products') }, 500)
+
+        const productoFirebase = {
+            nombre: nombre,
+            precio: precio,
+            fecha: precio,
+            descripcion: descripcion
+        }
+
+        axios.post('https://dsm-react-2025-paula-default-rtdb.europe-west1.firebasedatabase.app/productos.json', productoFirebase)
+        .then((response)=>{
+            alert('Se ha insertado el producto.')
+        })
+
     }
 
     const nombreBlurHandler = () => {
@@ -93,12 +112,14 @@ function NuevoProducto(props) {
             <Form onSubmit={submitHandler}>
                 <Container>
                     <Row>
-                        <Col><Form.Label className={`${nombreValid ? '': 'invalid'}`}>Nombre:</Form.Label>
+                        <Col><Form.Label className={`${nombreValid ? '' : 'invalid'}`}>Nombre:</Form.Label>
                             <Form.Control ref={nombreRef} type='text' onChange={nombreHandler} value={nombre} onBlur={nombreBlurHandler} /></Col>
                         <Col><Form.Label>Precio:</Form.Label>
                             <Form.Control type='number' onChange={precioHandler} value={precio} /></Col>
                         <Col><Form.Label>Fecha:</Form.Label>
                             <Form.Control type='date' onChange={fechaHandler} value={fecha} /></Col>
+                        <Col><Form.Label>Descripcion:</Form.Label>
+                            <Form.Control type='text' onChange={descripcionHandler} value={descripcion} /></Col>
                         <Col><Button type='submit' variant="success">NUEVO PRODUCTO</Button></Col>
                     </Row>
                 </Container>

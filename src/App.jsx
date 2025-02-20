@@ -4,7 +4,7 @@ import Productos from './components/Productos/Productos'
 import Header from './components/ui/Header'
 import Footer from './components/ui/Footer'
 import NuevoProducto from './components/Productos/NuevoProducto'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AutContext from './store/AutContext'
 import ProductosContext from './store/ProductosContext'
 import { Route, Routes } from 'react-router'
@@ -13,11 +13,35 @@ import AboutUs from './Pages/AboutUs'
 import Contact from './Pages/Contact'
 import ErrorPage from './Pages/ErrorPage'
 import DetalleProducto from './Pages/DetalleProducto'
+import axios from 'axios'
+import EditarProducto from './components/Productos/EditarProducto'
 
 function App() {
 
   const [login, setLogin] = useState(false)
   const [language, setLanguage] = useState('es-ES')
+
+  const [productosFirebase, setproductosFirebase] = useState([])
+
+  useEffect(() => {
+    axios.get('https://dsm-react-clase-2025-default-rtdb.europe-west1.firebasedatabase.app/productos.json')
+      .then((response) => {
+        //console.log(response.data)
+        let arrayProductos = []
+        for (let key in response.data) {
+          arrayProductos.push({
+            id: key,
+            nombre: response.data[key].nombre,
+            precio: response.data[key].precio,
+            fecha: new Date(response.data[key].fecha),
+            descripcion: response.data[key].descripcion
+          })
+        }
+        //console.log(arrayProductos)
+        setproductosFirebase(arrayProductos)
+      })
+      .catch((error)=>{console.log('¡Se ha producido un error!')})
+  }, [])
 
   const [productos, setProductos] = useState(
     [
@@ -71,6 +95,7 @@ function App() {
   const contenidoProductos = <>
     {/* <NuevoProducto addProducto={addProducto} /> */}
     <ProductosContext.Provider value={{ borrar: borraProducto }}>
+      <Productos productos={productosFirebase} borraProducto={borraProducto} />
       <Productos productos={productos} borraProducto={borraProducto} />
     </ProductosContext.Provider></>
 
@@ -85,7 +110,8 @@ function App() {
           <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} />}></Route>
           <Route path='/contact' element={<Contact />}></Route>
           <Route path='/product/:id' element={<DetalleProducto />}></Route>
-          <Route path='*' element={<ErrorPage/>}></Route>
+          <Route path='/product/edit/:id' element={<EditarProducto />}></Route>
+          <Route path='*' element={<ErrorPage />}></Route>
         </Routes>
 
 
