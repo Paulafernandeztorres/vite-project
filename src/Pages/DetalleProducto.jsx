@@ -23,6 +23,7 @@ function DetalleProducto() {
             <h2>DETALLES DEL PRODUCTO {parametros.id}</h2>
             <p>Nombre: {producto.nombre}</p>
             <p>Información del producto: {producto.descripcion}</p>
+            <img src={producto.imagen} />
             <p>Plantilla: {parametrosGet.get('format')}</p>
             <Button variant='warning'><Link to={`/product/edit/${parametros.id}`}>EDITAR PRODUCTO</Link></Button>
         </>

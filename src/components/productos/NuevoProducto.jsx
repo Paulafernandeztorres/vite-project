@@ -87,9 +87,13 @@ function NuevoProducto(props) {
             descripcion: descripcion
         }
 
-        axios.post('https://dsm-react-2025-paula-default-rtdb.europe-west1.firebasedatabase.app/productos.json', productoFirebase)
+        axios.post('https://dsm-react-clase-2025-default-rtdb.europe-west1.firebasedatabase.app/productos.json?auth=' + props.idToken, productoFirebase)
         .then((response)=>{
             alert('Se ha insertado el producto.')
+        })
+        .catch((error)=>{
+            alert('No se ha podido insertar.')
+            console.log(error)
         })
 
     }

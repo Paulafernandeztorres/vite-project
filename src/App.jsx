@@ -15,13 +15,30 @@ import ErrorPage from './Pages/ErrorPage'
 import DetalleProducto from './Pages/DetalleProducto'
 import axios from 'axios'
 import EditarProducto from './components/Productos/EditarProducto'
+import Login from './components/Login/Login'
+import Registro from './components/Login/Registro'
 
 function App() {
 
   const [login, setLogin] = useState(false)
+  const [loginData, setLoginData] = useState({})
   const [language, setLanguage] = useState('es-ES')
 
   const [productosFirebase, setproductosFirebase] = useState([])
+
+  const actualizarLogin = (login, loginData) => {
+    setLogin(login)
+    setLoginData(loginData)
+    localStorage.setItem('login', 'true')
+    localStorage.setItem('idToken', loginData.idToken)
+  }
+
+  useEffect(()=>{
+    if(localStorage.getItem('login')==='true'){
+      setLogin(true)
+      setLoginData({idToken: localStorage.getItem('idToken')})
+    }
+  },[])
 
   useEffect(() => {
     axios.get('https://dsm-react-clase-2025-default-rtdb.europe-west1.firebasedatabase.app/productos.json')
@@ -95,7 +112,7 @@ function App() {
   const contenidoProductos = <>
     {/* <NuevoProducto addProducto={addProducto} /> */}
     <ProductosContext.Provider value={{ borrar: borraProducto }}>
-      <Productos productos={productosFirebase} borraProducto={borraProducto} />
+      <Productos productos={productosFirebase} borraProducto={borraProducto} idToken={loginData.idToken} />
       <Productos productos={productos} borraProducto={borraProducto} />
     </ProductosContext.Provider></>
 
@@ -107,10 +124,12 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='/about-us' element={<AboutUs />}></Route>
           <Route path='/products' element={contenidoProductos}></Route>
-          <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} />}></Route>
+          <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} idToken={loginData.idToken} />}></Route>
           <Route path='/contact' element={<Contact />}></Route>
           <Route path='/product/:id' element={<DetalleProducto />}></Route>
-          <Route path='/product/edit/:id' element={<EditarProducto />}></Route>
+          <Route path='/product/edit/:id' element={<EditarProducto idToken={loginData.idToken} />}></Route>
+          <Route path='/login' element={<Login actualizarLogin={actualizarLogin} />} />
+          <Route path='/register' element={<Registro actualizarLogin={actualizarLogin} />} />
           <Route path='*' element={<ErrorPage />}></Route>
         </Routes>
 

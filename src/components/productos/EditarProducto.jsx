@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import { useParams } from "react-router";
 import axios from "axios";
 
-function EditarProducto() {
+function EditarProducto(props) {
 
     const parametros = useParams()
 
@@ -34,9 +34,13 @@ function EditarProducto() {
             fecha: new Date(fecha),
             descripcion: descripcion
         }
-        axios.put('https://dsm-react-clase-2025-default-rtdb.europe-west1.firebasedatabase.app/productos/' + parametros.id + '.json', producto)
+        axios.put('https://dsm-react-clase-2025-default-rtdb.europe-west1.firebasedatabase.app/productos/' + parametros.id + '.json?auth=' + props.idToken, producto)
         .then((response)=>{
             alert('Se ha modificado.')
+        })
+        .catch((error)=>{
+            alert('No se ha podido modificar.')
+            console.log(error)
         })
     }
 
